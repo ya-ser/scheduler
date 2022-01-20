@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export default function Application(props) {
   const [day, setDay] = useState("Monday")
-  console.log("what is this?", setDay)
+  // console.log("what is this?", setDay)
   const days = [
     {
       id: 1,
@@ -35,8 +35,8 @@ export default function Application(props) {
         <nav className="sidebar__menu">
           <DayList
             days={days}
-            day={day}
-            setDay={setDay}
+            value={day}
+            onChange={setDay}
           />
         </nav>
         <img
