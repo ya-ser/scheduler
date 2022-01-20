@@ -2,6 +2,9 @@ import React from "react";
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 import { useState } from "react";
+import Header from "./Header";
+import Show from "./Show";
+import Empty from "./Empty";
 
 export default function Form(props) {
   // when a new appointment is made for the first time, the default vals are "" or null, but when student and interviewer props are passed, they will be the default vals
