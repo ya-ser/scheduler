@@ -24,13 +24,3 @@ export default function DayListItem(props) {
     </li>
   );
 }
-// const dayListItem = [
-//   {
-//     name: "Yaser",
-//     spots: 1,
-//     selected: Boolean,
-//     setDay: function(){
-
-//     }
-//   }
-// ]
