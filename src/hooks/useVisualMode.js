@@ -7,15 +7,10 @@ export default function useVisualMode(initial) {
   const transition = function(newMode, replace = false) {
     setMode(newMode)
     if (replace) {
-      // replace history array with previous 
-      // console.log("replace", history);
       setHistory((prev => [...prev]))
-      // console.log("replace", history);
     } else {
       // take newMode and add it to history array
-      // console.log("not", history);
       setHistory((prev => [...prev, newMode]))
-      // console.log("not", history);
     }
   }
   const back = function() {

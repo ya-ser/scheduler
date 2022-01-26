@@ -4,7 +4,7 @@ import DayList from "./DayList";
 import { useState, useEffect } from "react";
 import Appointment from "./Appointment";
 import axios from "axios";
-import {getAppointmentsForDay, getInterview} from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewsForDay } from "helpers/selectors";
 
 export default function Application() {
   const [state, setState] = useState({
@@ -19,25 +19,75 @@ export default function Application() {
       axios.get('/api/appointments'),
       axios.get('/api/interviewers')
     ]).then((all) => {
-      setState(prev => ({...prev,
+      console.log(all[2].data);
+      setState(prev => ({
+        ...prev,
         days: all[0].data,
         appointments: all[1].data,
         interviewers: all[2].data
       }));
     })
   }, [])
-  // console.log("what is this", state.interviewers);
+
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios
+      .put(`/api/appointments/${id}`, appointment)
+      .then(() => {
+        setState({
+          ...state,
+          appointments
+        });
+      })
+      .catch((error) => console.log("error: ", error))
+  }
+
+  function cancelInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+
+    return axios
+      .delete(`/api/appointments/${id}`)
+      .then(() => {
+        setState({
+          ...state,
+          appointments
+        });
+      })
+      .catch((error) => console.log("error: ", error))
+  }
+
   const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const dailyInterviewers = getInterviewsForDay(state, state.day);
 
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
-  
     return (
       <Appointment
         key={appointment.id}
         id={appointment.id}
         time={appointment.time}
+        interviewers={dailyInterviewers}
         interview={interview}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
@@ -67,9 +117,7 @@ export default function Application() {
         />
       </section>
       <section className="schedule">
-        {dailyAppointments.map((appointment) => {
-          return <Appointment key={appointment.id} {...appointment} />;
-        })}
+        {schedule}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
