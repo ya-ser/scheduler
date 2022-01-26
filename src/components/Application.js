@@ -48,7 +48,6 @@ export default function Application() {
           appointments
         });
       })
-      .catch((error) => console.log("error: ", error))
   }
 
   function cancelInterview(id) {
@@ -71,7 +70,6 @@ export default function Application() {
           appointments
         });
       })
-      .catch((error) => console.log("error: ", error))
   }
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
