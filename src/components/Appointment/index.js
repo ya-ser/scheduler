@@ -20,29 +20,27 @@ const ERROR_SAVING = "ERROR_SAVING";
 const ERROR_DELETING = "ERROR_DELETING";
 
 export default function Appointment(props) {
-  const { mode, transition, back } = useVisualMode(
+  const { mode, transition, back, day } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-  console.log("student: ", props.interview);
   function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer
     };
     transition(SAVING)
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.day, props.id, interview)
       .then(() => {
-        console.log("success")
         transition(SHOW)
       })
-      .catch(() => {
+      .catch((e) => {
         transition(ERROR_SAVING, true)
       })
   }
 
   function cancel() {
     transition(DELETING)
-    props.cancelInterview(props.id)
+    props.cancelInterview(props.day, props.id)
       .then(() => transition(EMPTY))
       .catch(() => transition(ERROR_DELETING, true))
   }

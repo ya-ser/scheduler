@@ -27,6 +27,7 @@ export default function Application() {
         interview={interview}
         bookInterview={bookInterview}
         cancelInterview={cancelInterview}
+        day={state.day}
       />
     );
   });

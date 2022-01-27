@@ -14,7 +14,6 @@ export default function useApplicationData() {
       axios.get('/api/appointments'),
       axios.get('/api/interviewers')
     ]).then((all) => {
-      console.log(all[2].data);
       setState(prev => ({
         ...prev,
         days: all[0].data,
@@ -24,7 +23,16 @@ export default function useApplicationData() {
     })
   }, [])
 
-  function bookInterview(id, interview) {
+  function updateSpots(day, increment) {
+    const copyArr = [...state.days]
+    let selectedDay = state.days.find(days => days.name === day)
+    console.log("day: ", day);
+    const findDay = copyArr.indexOf(selectedDay)
+    copyArr[findDay].spots += increment
+    setState((prev) => ({ ...prev, ...state.days}))
+  };
+
+  function bookInterview(day, id, interview) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -43,9 +51,10 @@ export default function useApplicationData() {
           appointments
         });
       })
+      .then(() => updateSpots(day, -1))
   }
 
-  function cancelInterview(id) {
+  function cancelInterview(day, id) {
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -65,6 +74,7 @@ export default function useApplicationData() {
           appointments
         });
       })
+      .then(() => updateSpots(day, +1))
   }
   const setDay = day => setState({ ...state, day });
 
