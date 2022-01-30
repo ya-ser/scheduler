@@ -1,5 +1,15 @@
 # Interview Scheduler
 
+## Final Product
+>Add
+![Add](gifs/add.gif)
+
+>Edit
+![Edit](gifs/edit.gif)
+
+>Delete
+![Delete](gifs/delete.gif)
+
 ## Setup
 
 Install dependencies with `npm install`.
