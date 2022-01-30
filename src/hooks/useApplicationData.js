@@ -23,10 +23,10 @@ export default function useApplicationData() {
     })
   }, [])
 
+  // copies state.days obj, finds selected day obj, increments the spot
   function updateSpots(day, increment) {
     const copyArr = [...state.days]
     let selectedDay = state.days.find(days => days.name === day)
-    console.log("day: ", day);
     const findDay = copyArr.indexOf(selectedDay)
     copyArr[findDay].spots += increment
     setState((prev) => ({ ...prev, ...state.days}))
